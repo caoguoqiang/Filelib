@@ -21,6 +21,8 @@ public class VideoInfo {
 
     public long cutStartTime; //截取开始时间
     public long cutEndTime;//截取结束时间
+    public String outputPath;//输入路径
+    public String ouputParantPath;//输出父路径
 
     public List<ExtractFrame> extractFrameLists;//抽帧时间列表
 
@@ -53,6 +55,8 @@ public class VideoInfo {
                 ", path='" + path + '\'' +
                 ", cutStartTime=" + cutStartTime +
                 ", cutEndTime=" + cutEndTime +
+                ", outputPath='" + outputPath + '\'' +
+                ", ouputParantPath='" + ouputParantPath + '\'' +
                 ", extractFrameLists=" + extractFrameLists +
                 ", compareTime=" + compareTime +
                 ", sT='" + sT + '\'' +

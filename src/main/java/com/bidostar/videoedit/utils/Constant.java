@@ -39,4 +39,9 @@ public class Constant {
     public static final String URL_NOTIFY_MEDIA_UPLOAD_RECORD = HTTP_URL_BASE + "/v1/device/add_device_media.json";//本地文件上传记录通知服务端 作业务处理
     public static final String URL_GET_CONFIG = HTTP_URL_BASE + "/oss/config.json";
 
+    public static final String MEDIA_PATH = "/mnt/sdcard2/DVR";
+
+    public static final String MEDIA_EXTRACT_FRAME = "carservice/extract/";
+    public static final String MEDIA_CLIP = "carservice/clip/";
+
 }

@@ -50,7 +50,7 @@ public class EditVideoOperators {
     }
 
 
-    public synchronized void executeCut(){
+    public synchronized void  executeCut(){
         Log.e(TAG,"edit video ing... ");
         try {
             Thread.sleep(500);
@@ -128,26 +128,22 @@ public class EditVideoOperators {
      * @param videoInfo
      * @return
      */
-    public CutVideoInfo cutVideo(final VideoInfo videoInfo) {
+    public CutVideoInfo cutVideo(VideoInfo videoInfo) {
         long startTime = DateFormatUtils.parse(videoInfo.startTime, DateFormatUtils.PATTERN_MILL).getTime();
         String fileName = videoInfo.categoryId + "_" + DateFormatUtils.format(new Date(videoInfo.cutStartTime), DateFormatUtils.PATTERN_FULL_H);
         String formats = ".mp4";
 
         String second = ((videoInfo.cutStartTime - startTime)/1000)+"";
-        double duration = (videoInfo.cutEndTime - videoInfo.cutStartTime)/1000;//差多少秒，就剪切多少秒
-
-        String dstDirName = "clip";
-        String sdcardPath = Environment.getExternalStorageDirectory().getPath();
-        String dstDir = sdcardPath + File.separator + dstDirName;
-
-        String timeS = DateFormatUtils.format(new Date(videoInfo.cutStartTime), DateFormatUtils.PATTERN_MILL);
+        //差多少秒，就剪切多少秒
+        double duration = (videoInfo.cutEndTime - videoInfo.cutStartTime)/1000;
         if(duration <= 1){
             duration += 1;
         }
-        Log.e(TAG,"切割时间=" + timeS+"  从第"+second+"秒开始  向后切割多少秒 ： "+ duration);
         //执行视频切割
-        clipVideo(videoInfo.path,second,duration,dstDir,fileName+formats);
-        String filePath = dstDir + File.separator +  fileName;//保存视频的路径
+        clipVideo(videoInfo.path,second,duration,videoInfo.outputPath,fileName+formats);
+        //保存视频的路径
+        String filePath = videoInfo.outputPath + File.separator +  fileName;
+        Log.e(TAG,"output file path is " + filePath);
         File file = new File(filePath+formats);
         //切割完之后，进行任务入库，并上传
         if(file.exists()){

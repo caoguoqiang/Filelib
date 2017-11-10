@@ -164,14 +164,14 @@ public class FileOperators {
         return pathMap;
     }
 
-    private VideoInfo getVideoInfo(File file, int type){
+    public VideoInfo getVideoInfo(File file, int type){
         VideoInfo videoItem = new VideoInfo();
         videoItem.fileName = file.getName();
         videoItem.path = file.getPath();
         videoItem.startTime = getStartTime(file,type);
-        if(videoItem.startTime == null){
+        /*if(videoItem.startTime == null){
             return null;
-        }
+        }*/
 //        videoItem.length = getLengh(file);
 //        videoItem.endTime = DateFormatUtils.format(new Date(DateFormatUtils.parse(videoItem.startTime,DateFormatUtils.PATTERN_FULL).getTime()+ videoItem.length),DateFormatUtils.PATTERN_FULL);
         videoItem.type = type;
@@ -208,7 +208,7 @@ public class FileOperators {
     /**
      * 多媒体文件创建时间  BD06
      * @param names 文件名称
-     * @param type  文件类型  1  循环录影 2  锁定视频  3 图片
+     * @param type  文件类型  1  循环录影 2  锁定视频  4 图片
      * @return   开始时间
      */
     private String getCreateTimeFor06(String[] names ,int type){
