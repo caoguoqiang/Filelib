@@ -6,9 +6,11 @@ import android.util.Log;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
-import static android.content.ContentValues.TAG;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by small.cao on 2017/10/12.
@@ -76,5 +78,47 @@ public class FileUtils {
             destDir.getParentFile().mkdirs();
         return srcFile.renameTo(new File(destDirName));
 //        return srcFile.renameTo(new File(destDirName + File.separator + srcFile.getName()));
+    }
+
+    /**
+     * 移动文件
+     * @param srcFileName    源文件完整路径
+     * @param destDirName    目的目录完整路径
+     * @return 文件移动成功返回true，否则返回false
+     */
+    public static void moveFile1(String srcFileName, String destDirName) {
+        File srcFile = new File(srcFileName);
+        if(!srcFile.exists() || !srcFile.isFile()) {
+            return;
+        }
+        File destDir = new File(destDirName);
+        if (!destDir.getParentFile().exists()) {
+            destDir.getParentFile().mkdirs();
+        }
+        try {
+            copyFile(srcFile,destDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        return srcFile.renameTo(new File(destDirName));
+//        return srcFile.renameTo(new File(destDirName + File.separator + srcFile.getName()));
+    }
+
+    private static void copyFile(File source, File dest)
+            throws IOException {
+        InputStream input = null;
+        OutputStream output = null;
+        try {
+            input = new FileInputStream(source);
+            output = new FileOutputStream(dest);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buf)) > 0) {
+                output.write(buf, 0, bytesRead);
+            }
+        } finally {
+            input.close();
+            output.close();
+        }
     }
 }
