@@ -13,19 +13,28 @@ import java.util.List;
  */
 public class LockVideo {
 
-    public static void lockvideoList(Date eventEndDate){
+    public interface OnLockVideoCallback{
+        public void onLockProgress(int maxProgress,int progress);
+    }
+
+    private OnLockVideoCallback onLockVideoCallback;
+
+    public void lockvideoList(Date eventEndDate,OnLockVideoCallback onLockVideoCallback){
+        this.onLockVideoCallback = onLockVideoCallback;
         Date eventStartDate = new Date(eventEndDate.getTime() - 30 * 60 * 1000);
         List<VideoInfo> list = new FileOperators().getVideoItems(1,1);//前摄
         List<VideoInfo> list1 = new FileOperators().getVideoItems(1,2);//后摄
-        if(list != null && list.size() > 0){
-            dealVideo(eventStartDate,eventEndDate,list);
-        }
+        list1.addAll(list);
+//        if(list != null && list.size() > 0){
+//            dealVideo(eventStartDate,eventEndDate,list);
+//        }
         if(list1 != null && list1.size() > 0){
             dealVideo(eventStartDate,eventEndDate,list1);
         }
     }
 
-    private static void dealVideo(Date eventStartDate,Date eventEndDate,List<VideoInfo> list){
+    private void dealVideo(Date eventStartDate,Date eventEndDate,List<VideoInfo> list){
+        int max = list.size();
         for(VideoInfo videoInfo : list){
             Date vstartDate = DateFormatUtils.parse(videoInfo.startTime,DateFormatUtils.PATTERN_MILL);
             Date vendDate = new Date(vstartDate.getTime() + 150 * 1000);
@@ -48,7 +57,9 @@ public class LockVideo {
                         FileUtils.moveFile(videoInfo.path, Constant.VIDEO_BD06_LOCKED_PATH +"/"+ name);
                     }
                 }
-
+            }
+            if(onLockVideoCallback != null){
+                onLockVideoCallback.onLockProgress(max,list.indexOf(videoInfo));
             }
         }
     }
