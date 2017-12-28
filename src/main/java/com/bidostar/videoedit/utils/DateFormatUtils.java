@@ -379,4 +379,19 @@ public class DateFormatUtils {
         return DateFormatUtils.format(date, DateFormatUtils.PATTERN_YEAR_MONTH_DAY, DateFormatUtils.PATTERN_MONTH_DAY1);
     }
 
+    public static String minTime(long time){
+        long hour = time/1000/60/60 % 12;
+        long min = time/1000/60 % 60;
+        long sec = time/1000 % 60;
+        long mill = time % 1000;
+        String mills = Long.valueOf(mill).toString();
+        if(mill < 10){
+            mills = "00"+mill;
+        } else if(mill < 100 ){
+            mills = "0"+ mill;
+        }
+        return (hour<10 ? "0"+hour:hour)+":"+(min<10?"0"+min:min)+":"+(sec<10?"0"+sec:sec)+"."+mills;
+    }
+
+
 }
