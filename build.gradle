@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
 android {
     def Model = project.DEVICE_MODEL
     def b_debug = project.B_DEBUG
     def es = project.ES
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
-
 
     defaultConfig {
         minSdkVersion 19
@@ -38,3 +38,13 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':ffmpeglib')
 }
+
+publish {
+    userOrg = 'novoda'
+    groupId = 'com.bidostar.videoedit'
+    artifactId = 'FileLib'
+    publishVersion = '1.0'
+    desc = 'this is file operator tool ,but may not be apply for you'
+    website = 'git@github.com:caoguoqiang/Filelib.git'
+}
+//gradlew clean build bintrayUpload -PbintrayUser=caoguoqiang -PbintrayKey=d1a420f93325ca8dbaff0807d0c555b4cda994c9 -PdryRun=false
